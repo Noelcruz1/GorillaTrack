@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>GorilaTrack Configuración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      margin: 40px 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #estado {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #estado.success {
+      color: green;
+    }
+
+    #estado.error {
+      color: red;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-top: 8px;
+      border-left: 4px solid #007BFF;
+      border-radius: 4px;
+    }
+
+    ul li span {
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🦍 GorilaTrack</h1>
+
+    <label for="nombre">Nombre de emergencia</label>
+    <input type="text" id="nombre" placeholder="Tu Nombre" />
+
+    <label for="numero_personal">Número personal</label>
+    <input type="text" id="numero_personal" placeholder="Número personal" />
+
+    <label for="numero_familiar">Número familiar</label>
+    <input type="text" id="numero_familiar" placeholder="Número familiar" />
+
+    <label for="mensaje">Mensaje de emergencia</label>
+    <input type="text" id="mensaje" placeholder="Mensaje personalizado" />
+
+    <label for="modo_llamada">Modo de llamada</label>
+    <select id="modo_llamada">
+      <option value="on">Llamada activada</option>
+      <option value="off">Llamada desactivada</option>
+    </select>
+
+    <button onclick="conectar()">🔗 Conectar vía Bluetooth</button>
+    <button onclick="enviar()">📤 Enviar configuración</button>
+
+    <p id="estado"></p>
+
+    <h3>📋 Datos guardados:</h3>
+    <ul>
+      <li><span>Nombre:</span> <span id="r_nombre">---</span></li>
+      <li><span>Número personal:</span> <span id="r_personal">---</span></li>
+      <li><span>Número familiar:</span> <span id="r_familiar">---</span></li>
+      <li><span>Mensaje:</span> <span id="r_mensaje">---</span></li>
+      <li><span>Modo de llamada:</span> <span id="r_llamada">---</span></li>
+    </ul>
+  </div>
+
+  <script>
+    let serviceUuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+    let characteristics = {};
+
+    async function conectar() {
+      try {
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ name: "GorilaTrack" }],
+          optionalServices: [serviceUuid]
+        });
+
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService(serviceUuid);
+
+        const uuids = {
+          nombre: "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+          numero_personal: "6e400003-b5a3-f393-e0a9-e50e24dcca9e",
+          numero_familiar: "6e400004-b5a3-f393-e0a9-e50e24dcca9e",
+          mensaje: "6e400005-b5a3-f393-e0a9-e50e24dcca9e",
+          modo_llamada: "6e400006-b5a3-f393-e0a9-e50e24dcca9e"
+        };
+
+        for (let campo in uuids) {
+          characteristics[campo] = await service.getCharacteristic(uuids[campo]);
+        }
+
+        document.getElementById("estado").innerText = "✅ Conectado a GorilaTrack";
+        document.getElementById("estado").className = "success";
+
+        await leerConfiguracionActual();
+      } catch (e) {
+        document.getElementById("estado").innerText = "❌ Error al conectar: " + e;
+        document.getElementById("estado").className = "error";
+        console.error(e);
+      }
+    }
+
+    async function leerConfiguracionActual() {
+      const decoder = new TextDecoder("utf-8");
+
+      const nombre = decoder.decode(await characteristics.nombre.readValue());
+      const personal = decoder.decode(await characteristics.numero_personal.readValue());
+      const familiar = decoder.decode(await characteristics.numero_familiar.readValue());
+      const mensaje = decoder.decode(await characteristics.mensaje.readValue());
+      const modo = decoder.decode(await characteristics.modo_llamada.readValue());
+
+      document.getElementById("nombre").value = nombre;
+      document.getElementById("numero_personal").value = personal;
+      document.getElementById("numero_familiar").value = familiar;
+      document.getElementById("mensaje").value = mensaje;
+      document.getElementById("modo_llamada").value = modo === "on" ? "on" : "off";
+
+      document.getElementById("r_nombre").innerText = nombre;
+      document.getElementById("r_personal").innerText = personal;
+      document.getElementById("r_familiar").innerText = familiar;
+      document.getElementById("r_mensaje").innerText = mensaje;
+      document.getElementById("r_llamada").innerText = modo === "on" ? "Activado" : "Desactivado";
+    }
+
+    async function enviar() {
+      try {
+        const valores = {
+          nombre: document.getElementById("nombre").value,
+          numero_personal: document.getElementById("numero_personal").value,
+          numero_familiar: document.getElementById("numero_familiar").value,
+          mensaje: document.getElementById("mensaje").value,
+          modo_llamada: document.getElementById("modo_llamada").value
+        };
+
+        for (let campo in valores) {
+          let encoder = new TextEncoder();
+          await characteristics[campo].writeValue(encoder.encode(valores[campo]));
+        }
+
+        document.getElementById("estado").innerText = "✅ Configuración enviada correctamente";
+        document.getElementById("estado").className = "success";
+        await leerConfiguracionActual();
+
+      } catch (e) {
+        document.getElementById("estado").innerText = "❌ Error al enviar datos: " + e;
+        document.getElementById("estado").className = "error";
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+</html>
