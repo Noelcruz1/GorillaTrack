@@ -38,7 +38,7 @@
 ```
 GorilaTrack/
 │
-├── src/
+├── Arduino/
 │   ├── main.ino                   # Código principal
 │   ├── config.h                   # Pines, configuraciones
 │   ├── funciones_sms.h            # Envío de SMS
