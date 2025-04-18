@@ -1,159 +1,121 @@
-# GorillaTrack
-Sistema Portátil de Rastreo y Emergencia para Zonas Vulnerables
-Autor: Noel Cruz | Institución: Innovatec - TecNM
+# GorilaTrack 🦍📡
 
-Descripción
-
-GorilaTrack es un dispositivo autónomo de seguridad personal, diseñado para enviar alertas de emergencia con geolocalización precisa y realizar llamadas automáticas a un contacto designado. Funciona de forma independiente de smartphones o Internet, y está optimizado para bajo consumo energético. En fases futuras, integrará comunicación LoRa para crear una red comunitaria de "Puntos Rosa".
-
-Características
-
-📲 Envío de SMS de emergencia con enlace a Google Maps
-
-📞 Hasta 3 intentos de llamada automática
-
-🛰️ Geolocalización precisa con GPS NEO-6M
-
-🔋 Modo deep sleep (consumo < 10 μA) y botón de encendido/apagado
-
-🔴 LEDs indicadores:
-
-LED_POWER (Verde): Estado de energía
-
-LED_DATA (Azul): Estado de SMS
-
-LED_GSM (Naranja): Estado de llamada
-
-🚫 Protocolo anti-falsas alarmas (confirmación por presión prolongada)
-
-🔄 Reenvío de SMS cada 60 segundos mientras la emergencia está activa
-
-🔭 Plan de integración futura con LoRa (SX1276) y red de Puntos Rosa
-
-Contenido del Repositorio
-
-src/: Código fuente Arduino/ESP32
-
-docs/: Documentación técnica y esquemas de conexión
-
-README.md: Archivo principal de presentación y guía de uso
-
-LICENSE: Licencia de código abierto (MIT)
-
-Requisitos de Hardware
-
-Componente
-
-Detalle
-
-ESP32 (C3, S3 u otro)
-
-Microcontrolador principal
-
-SIM800L
-
-Módulo GSM para SMS y llamadas
-
-GPS NEO-6M
-
-Módulo GPS NMEA
-
-Fuente de alimentación
-
-LiPo 3.7V (con TP4056) o 5V estabilizado
-
-Convertidor DC-DC
-
-Buck a 4.0V (ej. MP1584, LM2596)
-
-LEDs SMD 1206
-
-3 colores (12, 13, 14)
-
-Botones
-
-BTN_POWER (GPIO4), BTN_EMERGENCY (GPIO5)
-
-(Opcional) LoRa SX1276
-
-Para futuras fases
-
-Conexiones (Pinout)
-
-ESP32            SIM800L/GPS/LEDs
-------           ----------------
-GPIO4  - BTN_POWER
-GPIO5  - BTN_EMERGENCY
-GPIO12 - LED_POWER (Verde)
-GPIO13 - LED_DATA  (Azul)
-GPIO14 - LED_GSM   (Naranja)
-GPIO16 - GPS RXD2
-GPIO17 - GPS TXD2
-GPIO26 - SIM800L RX
-GPIO27 - SIM800L TX
-Vin    - 4.0V (Buck Converter)
-GND    - Tierra común
-
-Instalación de Software
-
-Clona este repositorio:
-
-
-
-git clone https://github.com/tu_usuario/GorilaTrack.git cd GorilaTrack/src
-
-2. Abre el proyecto en **Arduino IDE** o **PlatformIO**.
-3. Instala las siguientes librerías desde el Library Manager:
-   - TinyGPSPlus
-   - TinyGsmClient
-   - Bounce2
-4. Selecciona la placa **ESP32** y el puerto correspondiente.
-5. Compila y sube el código.
+**GorilaTrack** es un sistema de rastreo GPS y comunicación de emergencia diseñado para ofrecer seguridad, confiabilidad y eficiencia energética en situaciones críticas. El dispositivo utiliza un ESP32 conectado a un módulo GPS NEO-6M, un módulo GSM SIM800L, y un sistema de comunicación LoRa SX1276. Integra funcionalidades como envío de SMS con ubicación, llamadas de emergencia, interacción vía Bluetooth y modificación de datos desde una página web accesible sin reprogramar el dispositivo.
 
 ---
 
-## Uso
+## 🧠 Características principales
 
-1. Enciende el dispositivo (LED_POWER en verde).
-2. Presiona **BTN_EMERGENCY** por >2 segundos para activar la emergencia.
-3. El dispositivo enviará un SMS con tu ubicación y luego intentará llamar.
-4. Mantén presionado **BTN_EMERGENCY** por >5 segundos para cancelar.
-5. El dispositivo entrará en deep sleep al apagar con **BTN_POWER** (>3 segundos).
-
----
-
-## Indicadores LED
-
-| LED         | Color   | Función Principal                                        |
-|-------------|---------|----------------------------------------------------------|
-| LED_POWER   | 🟢 Verde| Energía: encendido / parpadeo antes de deep sleep        |
-| LED_DATA    | 🔵 Azul | SMS: envío (fijo), éxito (3 parpadeos), fallo (6 rápidos)|
-| LED_GSM     | 🟠 Naranja| Llamada: parpadeo durante llamada, apaga al finalizar    |
+- 📍 Obtención de ubicación en tiempo real mediante GPS.
+- 📲 Envío automático de SMS con enlace de Google Maps.
+- 📞 Llamadas de emergencia con hasta 3 intentos si no contestan.
+- 🔋 Gestión energética optimizada (Deep Sleep, encendido manual).
+- 🧠 Configuración remota por Bluetooth mediante página web.
+- 💾 Uso de LittleFS para guardar datos como números telefónicos y mensajes.
+- 📡 Comunicación LoRa entre múltiples puntos (Puntos Rosa y nodo central).
+- 🔧 Totalmente portátil y adaptable a diversas condiciones de operación.
 
 ---
 
-## Roadmap
+## 🔧 Hardware requerido
 
-| Fase   | Estado          | Descripción                                    |
-|--------|-----------------|------------------------------------------------|
-| Fase 1 | ✅ Completado   | Protótipo con SMS/GPS/Llamada                  |
-| Fase 2 | 🚧 En desarrollo | Integración LoRa y red de Puntos Rosa          |
-| Fase 3 | 📝 Planificado  | Plataforma web/app de monitoreo                |
-| Fase 4 | 📝 Planificado  | Sensores adicionales y análisis predictivo     |
-
----
-
-## Contribuciones
-
-¡Las contribuciones son bienvenidas! Por favor, abre una issue o un pull request con mejoras, correcciones o nuevas funcionalidades.
-
----
-
-## Licencia
-
-Este proyecto está licenciado bajo **MIT License**. Consulta el archivo `LICENSE` para más detalles.
+| Componente            | Modelo/Descripción                       |
+|----------------------|-------------------------------------------|
+| Microcontrolador     | ESP32 (cualquier versión con pines suficientes) |
+| GPS                  | Módulo NEO-6M                            |
+| GSM                  | Módulo SIM800L                           |
+| Comunicación         | Módulo LoRa SX1276                       |
+| Almacenamiento       | SPI Flash (integrado en el ESP32)        |
+| Botones físicos      | Para encendido y emergencia              |
+| LEDs indicadores     | LED_DATA y LED_GSM                       |
+| Conversores de voltaje | SM5308, TP4056, MT3608 (según necesidades) |
+| Batería              | LiPo 3.7V (una o más en paralelo)        |
 
 ---
 
-*Desarrollado por Noel Cruz y colaboradores.*
+## 📁 Estructura del proyecto
 
+```
+GorilaTrack/
+│
+├── src/
+│   ├── main.ino                   # Código principal
+│   ├── config.h                   # Pines, configuraciones
+│   ├── funciones_sms.h            # Envío de SMS
+│   ├── funciones_llamada.h        # Gestión de llamadas
+│   ├── funciones_gps.h            # Lectura de GPS
+│   ├── funciones_lora.h           # Comunicación LoRa
+│   └── funciones_ble.h            # Interfaz BLE y web
+│
+├── data/
+│   └── user_data.txt              # Datos cargados por el usuario
+│
+├── web/
+│   └── index.html                 # Página web para editar datos vía BLE
+│
+└── README.md                      # Este archivo
+```
+
+---
+
+## ⚙️ Instalación
+
+1. **Requisitos:**
+   - Arduino IDE o PlatformIO.
+   - Placas de ESP32 instaladas.
+   - Librerías necesarias:
+     - `TinyGSM`
+     - `TinyGPS++`
+     - `LoRa`
+     - `FS` / `LittleFS`
+     - `BLEDevice`, `BLEServer`
+     - `ArduinoJson`
+     - `WebServer`
+
+2. **Pasos:**
+   - Carga el contenido de `/src` al ESP32.
+   - Usa el gestor de archivos de Arduino o PlatformIO para subir `/data` con LittleFS.
+   - Si deseas editar los datos del usuario vía Bluetooth, accede al sitio web generado por el ESP32 cuando esté en modo BLE.
+
+---
+
+## 📱 Configuración vía Bluetooth
+
+- El ESP32 emite una señal BLE detectable por el celular.
+- Desde la web integrada puedes:
+  - Cambiar nombre del usuario.
+  - Editar número personal y familiar.
+  - Modificar el mensaje de emergencia.
+  - Activar o desactivar modo de llamada.
+- Al guardar los cambios, el ESP32 actualiza su configuración en tiempo real.
+
+---
+
+## 🔐 Seguridad
+
+- Se utilizan botones físicos para evitar activaciones accidentales.
+- El ESP32 entra en modo Deep Sleep tras ciertos eventos para preservar batería.
+- El botón de encendido debe mantenerse presionado por un tiempo determinado para activar el dispositivo.
+
+---
+
+## 🧭 Modo GorilaTrack (Nodo central)
+
+El nodo central del sistema se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia.
+
+---
+
+## 🚧 Roadmap y mejoras futuras
+
+- 🌐 Versión web más interactiva y con interfaz moderna.
+- 📡 Soporte para múltiples modos de rastreo (en tiempo real, histórico).
+- 🔒 Autenticación básica para la interfaz BLE.
+- 🛰️ Transmisión por satélite en zonas sin cobertura GSM.
+- 🔋 Optimización extrema para autonomía de meses.
+
+---
+
+## 🧪 Créditos
+
+Este proyecto fue desarrollado con amor y cuidado pensando en la seguridad personal y la tecnología accesible.  
+Gracias por usar GorilaTrack ❤️
