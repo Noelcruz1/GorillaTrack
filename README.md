@@ -2,7 +2,7 @@
 
 **GorilaTrack** es un sistema de rastreo GPS y comunicación de emergencia diseñado para ofrecer seguridad, confiabilidad y eficiencia energética en situaciones críticas. El dispositivo utiliza un ESP32 conectado a un módulo GPS NEO-6M, un módulo GSM SIM800L, y un sistema de comunicación LoRa SX1276. Integra funcionalidades como envío de SMS con ubicación, llamadas de emergencia, interacción vía Bluetooth y modificación de datos desde una página web accesible sin reprogramar el dispositivo.
 
-![examples](/extras/img.png)
+<img width="300" alt="Logo" src="extras/img.png">
 
 
 ---
