@@ -21,15 +21,15 @@
 
 | Componente            | Modelo/Descripción                       |
 |----------------------|-------------------------------------------|
-| Microcontrolador     | ESP32 (cualquier versión con pines suficientes) |
+| Microcontrolador     | ESP32-WROOM V3.1 |
 | GPS                  | Módulo NEO-6M                            |
 | GSM                  | Módulo SIM800L                           |
 | Comunicación         | Módulo LoRa SX1276                       |
 | Almacenamiento       | SPI Flash (integrado en el ESP32)        |
 | Botones físicos      | Para encendido y emergencia              |
-| LEDs indicadores     | LED_DATA y LED_GSM                       |
-| Conversores de voltaje | SM5308, TP4056, MT3608 (según necesidades) |
-| Batería              | LiPo 3.7V (una o más en paralelo)        |
+| LEDs indicadores     | LED_DATA, LED_GSM, LED_PWR                       |
+| Conversores de voltaje | SM5308, MP1584 |
+| Batería              | LiPo 3.7V (dos en paralelo)        |
 
 ---
 
@@ -61,27 +61,27 @@ GorilaTrack/
 ## ⚙️ Instalación
 
 1. **Requisitos:**
-   - Arduino IDE o PlatformIO.
-   - Placas de ESP32 instaladas.
+   - Arduino IDE 2.x
+   - Modulos del ESP32 instaladas.
    - Librerías necesarias:
      - `TinyGSM`
      - `TinyGPS++`
      - `LoRa`
      - `FS` / `LittleFS`
      - `BLEDevice`, `BLEServer`
-     - `ArduinoJson`
+     - `Bounce2`
      - `WebServer`
 
 2. **Pasos:**
-   - Carga el contenido de `/src` al ESP32.
-   - Usa el gestor de archivos de Arduino o PlatformIO para subir `/data` con LittleFS.
+   - Carga el contenido de `Arduino` al ESP32.
+   - Usa el gestor de archivos de Arduino para subir `Innovatek-GT.ino` con LittleFS.
    - Si deseas editar los datos del usuario vía Bluetooth, accede al sitio web generado por el ESP32 cuando esté en modo BLE.
 
 ---
 
 ## 📱 Configuración vía Bluetooth
 
-- El ESP32 emite una señal BLE detectable por el celular.
+- El ESP32 emite una señal BLE detectable por el navegador cuando se presiona el boton Encendido.
 - Desde la web integrada puedes:
   - Cambiar nombre del usuario.
   - Editar número personal y familiar.
@@ -117,5 +117,5 @@ El nodo central del sistema se comporta como receptor de señales LoRa desde mú
 
 ## 🧪 Créditos
 
-Este proyecto fue desarrollado con amor y cuidado pensando en la seguridad personal y la tecnología accesible.  
-Gracias por usar GorilaTrack ❤️
+Este proyecto fue desarrollado pensando en la seguridad personal y la tecnología accesible.  
+Gracias por usar GorilaTrack.
