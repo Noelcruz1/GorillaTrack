@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module moduleId="LM2596 step down module_94a7640b92a35c772ce8d1bf1932fa29_2" referenceFile="LM2596_module_b69dded13ba8e4ef1421a2ef388d578b_15.fzp">
+ <version>1.0</version>
+ <author>Robby</author>
+ <title>LM2596 step down module</title>
+ <label>U</label>
+ <date>Sa Jan 19 2019</date>
+ <tags>
+  <tag>LM2596</tag>
+  <tag>step down</tag>
+  <tag>module</tag>
+  <tag>power supply</tag>
+  <tag>Robby</tag>
+ </tags>
+ <properties>
+  <property name="family">power supply module</property>
+  <property name="type">LM2596 step down</property>
+  <property name="layer"></property>
+  <property name="part number"></property>
+ </properties>
+ <taxonomy>part.dip.4.pins</taxonomy>
+ <description>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-family:'Droid Sans,sans-serif'; font-size:8.5pt; font-weight:600; color:#000000;">LM2596&lt;/span>&lt;span style=" font-family:'Droid Sans,sans-serif'; font-size:8.5pt; color:#000000;"> DC-DC step down power supply module 3 A.&lt;/span>&lt;/p>&lt;/body>&lt;/html></description>
+ <views>
+  <iconView>
+   <layers image="icon/LM2596 step down module_1b9b0520825bd2dcf52bb215f546347a_2_icon.svg">
+    <layer layerId="icon"/>
+   </layers>
+  </iconView>
+  <breadboardView>
+   <layers image="breadboard/LM2596 step down module_1b9b0520825bd2dcf52bb215f546347a_2_breadboard.svg">
+    <layer layerId="breadboard"/>
+   </layers>
+  </breadboardView>
+  <schematicView>
+   <layers image="schematic/LM2596 step down module_1b9b0520825bd2dcf52bb215f546347a_2_schematic.svg">
+    <layer layerId="schematic"/>
+   </layers>
+  </schematicView>
+  <pcbView>
+   <layers image="pcb/LM2596 step down module_1b9b0520825bd2dcf52bb215f546347a_2_pcb.svg">
+    <layer layerId="silkscreen"/>
+    <layer layerId="copper0"/>
+    <layer layerId="copper1"/>
+   </layers>
+  </pcbView>
+ </views>
+ <connectors>
+  <connector id="connector0" name="IN+" type="male">
+   <description>pin 0</description>
+   <views>
+    <breadboardView>
+     <p svgId="connector0pin" layer="breadboard" terminalId="connector0terminal"/>
+    </breadboardView>
+    <schematicView>
+     <p svgId="connector0pin" layer="schematic" terminalId="connector0terminal"/>
+    </schematicView>
+    <pcbView>
+     <p svgId="connector0pin" layer="copper0"/>
+     <p svgId="connector0pin" layer="copper1"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector id="connector1" name="IN-" type="male">
+   <description>pin 1</description>
+   <views>
+    <breadboardView>
+     <p svgId="connector1pin" layer="breadboard" terminalId="connector1terminal"/>
+    </breadboardView>
+    <schematicView>
+     <p svgId="connector1pin" layer="schematic" terminalId="connector1terminal"/>
+    </schematicView>
+    <pcbView>
+     <p svgId="connector1pin" layer="copper0"/>
+     <p svgId="connector1pin" layer="copper1"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector id="connector2" name="OUT+" type="male">
+   <description>pin 2</description>
+   <views>
+    <breadboardView>
+     <p svgId="connector2pin" layer="breadboard" terminalId="connector2terminal"/>
+    </breadboardView>
+    <schematicView>
+     <p svgId="connector2pin" layer="schematic" terminalId="connector2terminal"/>
+    </schematicView>
+    <pcbView>
+     <p svgId="connector2pin" layer="copper0"/>
+     <p svgId="connector2pin" layer="copper1"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector id="connector3" name="OUT-" type="male">
+   <description>pin 3</description>
+   <views>
+    <breadboardView>
+     <p svgId="connector3pin" layer="breadboard" terminalId="connector3terminal"/>
+    </breadboardView>
+    <schematicView>
+     <p svgId="connector3pin" layer="schematic" terminalId="connector3terminal"/>
+    </schematicView>
+    <pcbView>
+     <p svgId="connector3pin" layer="copper0"/>
+     <p svgId="connector3pin" layer="copper1"/>
+    </pcbView>
+   </views>
+  </connector>
+ </connectors>
+ <buses>
+  <bus id="internal1"/>
+  <bus id="internal2"/>
+  <bus id="internal3">
+   <nodeMember connectorId="connector1"/>
+   <nodeMember connectorId="connector3"/>
+  </bus>
+ </buses>
+</module>

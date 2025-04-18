@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.4.2024-10-07.CD-2065-0-a8c6ef7c" icon="Mine.png">
+    <title>My Parts</title>
+    <instances>
+        <instance moduleIdRef="TTGO-T-Call-SIM800C_5783f84a76267a29826873fdbf6e2c39_13" modelIndex="6252" path="F:/Documentos/Fritzing/parts/user/TTGO-T-Call-SIM800C_5783f84a76267a29826873fdbf6e2c39_13.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="NEO-6M_GPS_Module_with_ant_1" modelIndex="6332" path="F:/Documentos/Fritzing/parts/user/NEO-6M_GPS_Module_with_ant_1.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SM5308_battery_charger_module_1" modelIndex="85411230" path="F:/Documentos/Fritzing/parts/user/SM5308_battery_charger_module_1.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="LM2596 step down module_94a7640b92a35c772ce8d1bf1932fa29_2" modelIndex="85513361" path="F:/Documentos/Fritzing/parts/user/LM2596 step down module_94a7640b92a35c772ce8d1bf1932fa29_2.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="LoRa-sx1278-module-tht_1" modelIndex="85515382" path="F:/Documentos/Fritzing/parts/user/LoRa-sx1278-module-tht_1.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="Semtech_73633d6a2582aec858e2fc58b4227ae6_20" modelIndex="85515387" path="F:/Documentos/Fritzing/parts/user/Semtech_73633d6a2582aec858e2fc58b4227ae6_20.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+    </instances>
+</module>

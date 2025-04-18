@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.4.2024-10-07.CD-2065-0-a8c6ef7c" icon="Search.png" search="antenna">
+    <title>Search</title>
+    <instances>
+        <instance moduleIdRef="SIM800L_f8eef8544e6f5e48ccb81ea982ec3dca_3" modelIndex="85518885" path="F:/Documentos/Fritzing/parts/user/SIM800L_f8eef8544e6f5e48ccb81ea982ec3dca_3.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="cellular shield-v12" modelIndex="85518886" path="C:/Program Files/Fritzing/fritzing-parts/core/cellular shield-v12.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-BLUERADIO_BR-C40N-INTERNAL" modelIndex="85518887" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-blueradio_br-c40n-internal.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SI4735 Shield-v13" modelIndex="85518888" path="C:/Program Files/Fritzing/fritzing-parts/core/SI4735 Shield-v13.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA2-SMD2" modelIndex="85518889" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna2-smd2.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA2-SMD5" modelIndex="85518890" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna2-smd5.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA2-SMD" modelIndex="85518891" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna2-smd.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-BLUERADIO_BR-C40N-SFE" modelIndex="85518892" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-blueradio_br-c40n-sfe.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ALM-1412-SMD" modelIndex="85518893" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-alm-1412-smd.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="Si470x-Eval-v11" modelIndex="85518894" path="C:/Program Files/Fritzing/fritzing-parts/core/Si470x-Eval-v11.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="huzzah_esp8266" modelIndex="85518895" path="C:/Program Files/Fritzing/fritzing-parts/core/huzzah_esp8266.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA-SMD1" modelIndex="85518896" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna-smd1.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA2-SMD6" modelIndex="85518897" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna2-smd6.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-LS20126-" modelIndex="85518898" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-ls20126-.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-ANTENNA2-SMD3" modelIndex="85518899" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-antenna2-smd3.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-Connectors-U.FL-" modelIndex="85518900" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-connectors-u.fl-.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-VENUS638FLPX-L-" modelIndex="85518901" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-venus638flpx-l-.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="ESP8266_module_antenna" modelIndex="85518902" path="C:/Program Files/Fritzing/fritzing-parts/core/ESP8266_module.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="a975d1270bd55d6fc3916947793f1a57" modelIndex="85518903" path="C:/Program Files/Fritzing/fritzing-parts/core/rfid-reader.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="6d07f5eae4523283f5da4171f9c54e25" modelIndex="85518904" path="C:/Program Files/Fritzing/fritzing-parts/core/Antenna.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-BLUERADIO_BR-C40N-INT2" modelIndex="85518905" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-blueradio_br-c40n-int2.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="ArduinoBluetoothMatev13" modelIndex="85518906" path="C:/Program Files/Fritzing/fritzing-parts/core/ArduinoBluetoothMatev13.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-BLUERADIO_BR-C40N-BAS" modelIndex="85518907" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-blueradio_br-c40n-bas.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-Connectors-SMA_EDGE-" modelIndex="85518908" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-connectors-sma_edge-.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="SparkFun-RF-SI470X-" modelIndex="85518909" path="C:/Program Files/Fritzing/fritzing-parts/core/sparkfun-rf-si470x-.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="ESP8266_7" modelIndex="85518910" path="C:/Program Files/Fritzing/fritzing-parts/core/ESP8266_7.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+        <instance moduleIdRef="LoRa-sx1278-module-tht_1" modelIndex="85518911" path="F:/Documentos/Fritzing/parts/user/LoRa-sx1278-module-tht_1.fzp">
+            <views/>
+        </instance>
+        <instance moduleIdRef="Semtech_73633d6a2582aec858e2fc58b4227ae6_20" modelIndex="85518912" path="F:/Documentos/Fritzing/parts/user/Semtech_73633d6a2582aec858e2fc58b4227ae6_20.fzp" flippedSMD="true">
+            <views/>
+        </instance>
+    </instances>
+</module>

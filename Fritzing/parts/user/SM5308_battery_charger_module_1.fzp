@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<module moduleId="SM5308_battery_charger_module_1" referenceFile="SM5308_battery_charger_module_1.fzp" fritzingVersion="1.0.2">
+  <version>1</version>
+  <author>Peter Van Epp (vanepp in forums)</author>
+  <title>SM5308 battery charger module</title>
+  <label>A</label>
+  <date>Sat Jun 22 2024</date>
+  <tags>
+    <tag>contrib</tag>
+    <tag>SM5308 battery charger module</tag>
+    <tag>fritzing user</tag>
+  </tags>
+  <properties>
+    <property name="variant">variant 1</property>
+    <property name="family">SM5308 battery charger module</property>
+    <property name="layer"/>
+  </properties>
+  <description>Charger module for Lipo Battery from Usb, 5v 2a, Sm5308 chip.</description>
+  <views>
+    <iconView>
+      <layers image="breadboard/SM5308_battery_charger_module_1_breadboard.svg">
+        <layer layerId="icon"/>
+      </layers>
+    </iconView>
+    <breadboardView>
+      <layers image="breadboard/SM5308_battery_charger_module_1_breadboard.svg">
+        <layer layerId="breadboard"/>
+      </layers>
+    </breadboardView>
+    <schematicView>
+      <layers image="schematic/SM5308_battery_charger_module_1_schematic.svg">
+        <layer layerId="schematic"/>
+      </layers>
+    </schematicView>
+    <pcbView>
+      <layers image="pcb/SM5308_battery_charger_module_1_pcb.svg">
+        <layer layerId="silkscreen"/>
+        <layer layerId="copper0"/>
+        <layer layerId="copper1"/>
+      </layers>
+    </pcbView>
+  </views>
+  <connectors>
+    <connector id="connector0" type="male" name="Pin 1">
+      <description>GND</description>
+      <views>
+        <breadboardView>
+          <p svgId="connector0pin" layer="breadboard"/>
+        </breadboardView>
+        <schematicView>
+          <p svgId="connector0pin" layer="schematic" terminalId="connector0terminal"/>
+        </schematicView>
+        <pcbView>
+          <p svgId="connector0pin" layer="copper0"/>
+          <p svgId="connector0pin" layer="copper1"/>
+        </pcbView>
+      </views>
+    </connector>
+    <connector id="connector1" type="male" name="Pin 2">
+      <description>BAT+</description>
+      <views>
+        <breadboardView>
+          <p svgId="connector1pin" layer="breadboard"/>
+        </breadboardView>
+        <schematicView>
+          <p svgId="connector1pin" layer="schematic" terminalId="connector1terminal"/>
+        </schematicView>
+        <pcbView>
+          <p svgId="connector1pin" layer="copper0"/>
+          <p svgId="connector1pin" layer="copper1"/>
+        </pcbView>
+      </views>
+    </connector>
+    <connector id="connector2" type="male" name="Pin 3">
+      <description>K</description>
+      <views>
+        <breadboardView>
+          <p svgId="connector2pin" layer="breadboard"/>
+        </breadboardView>
+        <schematicView>
+          <p svgId="connector2pin" layer="schematic" terminalId="connector2terminal"/>
+        </schematicView>
+        <pcbView>
+          <p svgId="connector2pin" layer="copper0"/>
+          <p svgId="connector2pin" layer="copper1"/>
+        </pcbView>
+      </views>
+    </connector>
+    <connector id="connector3" type="male" name="Pin 4">
+      <description>+5V</description>
+      <views>
+        <breadboardView>
+          <p svgId="connector3pin" layer="breadboard"/>
+        </breadboardView>
+        <schematicView>
+          <p svgId="connector3pin" layer="schematic" terminalId="connector3terminal"/>
+        </schematicView>
+        <pcbView>
+          <p svgId="connector3pin" layer="copper0"/>
+          <p svgId="connector3pin" layer="copper1"/>
+        </pcbView>
+      </views>
+    </connector>
+    <connector id="connector4" type="male" name="Pin 5">
+      <description>GND</description>
+      <views>
+        <breadboardView>
+          <p svgId="connector4pin" layer="breadboard"/>
+        </breadboardView>
+        <schematicView>
+          <p svgId="connector4pin" layer="schematic" terminalId="connector4terminal"/>
+        </schematicView>
+        <pcbView>
+          <p svgId="connector4pin" layer="copper0"/>
+          <p svgId="connector4pin" layer="copper1"/>
+        </pcbView>
+      </views>
+    </connector>
+  </connectors>
+  <buses>
+    <bus id="GND">
+      <nodeMember connectorId="connector0"/>
+      <nodeMember connectorId="connector4"/>
+    </bus>
+  </buses>
+  <url>https://articulo.mercadolibre.com.mx/MLM-2793273724-10-modulos-cargador-baterias-litio-usb-elegir-5v-2a-sm5308-_JM#position=6&amp;search_layout=grid&amp;type=item&amp;racking_id=20c4fd42-4219-4f3e-81a8-3be5e4670119</url>
+</module>

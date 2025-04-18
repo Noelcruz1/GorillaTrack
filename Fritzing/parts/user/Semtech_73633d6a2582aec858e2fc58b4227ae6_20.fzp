@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module moduleId="Semtech_73633d6a2582aec858e2fc58b4227ae6_20" fritzingVersion="0.7.5b.07.02.6130" referenceFile="MCP3008__2f09e113f2d6d4ad4a99f83444d78e59.fzp">
+ <author>kta</author>
+ <title>Ra-01 - LoRa Module SX1278</title>
+ <label>LoRa Module</label>
+ <date>Mon Jan 22 2018</date>
+ <url>https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1278</url>
+ <tags>
+  <tag>LoRa</tag>
+  <tag>SPI</tag>
+ </tags>
+ <properties>
+  <property name="family">wireless</property>
+  <property name="part number">SX1278</property>
+  <property name="variant">variant 1</property>
+  <property name="layer"></property>
+  <property name="vendor">AI-Thinker</property>
+ </properties>
+ <views>
+  <iconView>
+   <layers image="icon/Semtech_5a8b71f03f1fef018919bedee470cbb1_1_icon.svg">
+    <layer layerId="icon"/>
+   </layers>
+  </iconView>
+  <breadboardView>
+   <layers image="breadboard/Semtech_5a8b71f03f1fef018919bedee470cbb1_1_breadboard.svg">
+    <layer layerId="breadboard"/>
+   </layers>
+  </breadboardView>
+  <schematicView>
+   <layers image="schematic/Semtech_5a8b71f03f1fef018919bedee470cbb1_1_schematic.svg">
+    <layer layerId="schematic"/>
+   </layers>
+  </schematicView>
+  <pcbView>
+   <layers image="pcb/Semtech_5a8b71f03f1fef018919bedee470cbb1_1_pcb.svg">
+    <layer layerId="copper1"/>
+   </layers>
+  </pcbView>
+ </views>
+ <connectors>
+  <connector name="MOSI" type="male" id="connector3">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector3terminal" svgId="connector3pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector3terminal" svgId="connector3pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector3male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO2" type="male" id="connector15">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector15terminal" svgId="connector15pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector15terminal" svgId="connector15pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector15male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="MISO" type="male" id="connector4">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector4terminal" svgId="connector4pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector4terminal" svgId="connector4pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector4male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO3" type="male" id="connector16">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector16terminal" svgId="connector16pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector16terminal" svgId="connector16pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector16male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="SCK" type="male" id="connector5">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector5terminal" svgId="connector5pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector5terminal" svgId="connector5pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector5male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO5" type="male" id="connector6">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector6terminal" svgId="connector6pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector6terminal" svgId="connector6pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector6male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO4" type="male" id="connector7">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector7terminal" svgId="connector7pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector7terminal" svgId="connector7pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector7male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="GND" type="male" id="connector8">
+   <description>Adjacent to DIO4</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector8terminal" svgId="connector8pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector8terminal" svgId="connector8pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector8male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="ANT" type="male" id="connector9">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector9terminal" svgId="connector9pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector9terminal" svgId="connector9pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector9male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="GND" type="male" id="connector10">
+   <description>Adjacent to ANT</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector10terminal" svgId="connector10pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector10terminal" svgId="connector10pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector10male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="3.3V" type="male" id="connector11">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector11terminal" svgId="connector11pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector11terminal" svgId="connector11pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector11male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="RESET" type="male" id="connector12">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector12terminal" svgId="connector12pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector12terminal" svgId="connector12pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector12male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="GND" type="male" id="connector1">
+   <description>Adjacent to NSS</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector1terminal" svgId="connector1pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector1terminal" svgId="connector1pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector1male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO0" type="male" id="connector13">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector13terminal" svgId="connector13pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector13terminal" svgId="connector13pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector13male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="NSS" type="male" id="connector2">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector2terminal" svgId="connector2pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector2terminal" svgId="connector2pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector2male"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector name="DIO1" type="male" id="connector14">
+   <description>no description yet</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" terminalId="connector14terminal" svgId="connector14pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" terminalId="connector14terminal" svgId="connector14pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper1" svgId="connector14male"/>
+    </pcbView>
+   </views>
+  </connector>
+ </connectors>
+ <description>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">The Ra-01 LoRa Module featuring the SX1278 engine by Semtech. Module by AI-Thinker.&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Module (Ra-01) specifications from: https://www.banggood.com/Ra-01-Smart-Electronics-SX1278-LoRa-Spread-Spectrum-Wireless-Module-Ultra-Far-10KM-433M-p-1130769.html&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Description:&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Power supply: DC1.8-3.7V(3.3V)&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Chip: SX1278 &lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Frequency: 433Mhz&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Operating temperature: -40~+85°C&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">On Sheild Description (may vary by model):&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">ISM: 410-525MHz&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">PA: +18dBm&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">LoRa/FSK/00k&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Feature list:&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• LoRa ™ spread spectrum modulation technology&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Super-far-distance communication 15KM&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• +20dBm-100mW voltage constant when the RF power output&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• High sensitivity: low to -148dBm&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Half duplex SPI communication&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Programmable bitrates up to 300kbps&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Supports FSK, GFSK, MSK, GMSK, LoRa ™ and OOK modulation&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• 127dB RSSI dynamic range&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Automatic RF signal detection, CAD models and ultra high-speed AFC&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• With the CRC, up to 256 bytes of packet engine&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Small double stamp hole size SMD package&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Shielding shell&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">• Spring antenna (Ra-01)&lt;/p>&lt;/body>&lt;/html></description>
+</module>
