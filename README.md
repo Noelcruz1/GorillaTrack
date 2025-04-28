@@ -1,6 +1,6 @@
 # GorilaTrack 🦍📡
 
-**GorilaTrack** es un sistema de rastreo GPS y comunicación de emergencia diseñado para ofrecer seguridad, confiabilidad y eficiencia energética en situaciones críticas. El dispositivo utiliza un ESP32 conectado a un módulo GPS NEO-6M, un módulo GSM SIM800L, y un sistema de comunicación LoRa SX1276. Integra funcionalidades como envío de SMS con ubicación, llamadas de emergencia, interacción vía Bluetooth y modificación de datos desde una página web accesible sin reprogramar el dispositivo.
+**GorilaTrack** es un sistema de rastreo GPS y comunicación de emergencia diseñado para ofrecer seguridad, confiabilidad y eficiencia energética en situaciones críticas. El dispositivo utiliza un ESP32 conectado a un módulo GPS NEO-6M, un módulo GSM SIM800L, y un sistema de comunicación LoRa SX1276 (En Desarrollo). Integra funcionalidades como envío de SMS con ubicación, llamadas de emergencia, interacción vía Bluetooth y modificación de datos desde una página web accesible sin reprogramar el dispositivo.
 
 <p align="center">
 <img width="300" src="extras/img.png" alt="Descripción de la imagen 1" >            <img width="300" src="extras/Logo2.png" alt="Descripción de la imagen 2" >                       
@@ -13,10 +13,10 @@
 - 📍 Obtención de ubicación en tiempo real mediante GPS.
 - 📲 Envío automático de SMS con enlace de Google Maps.
 - 📞 Llamadas de emergencia con hasta 3 intentos si no contestan.
-- 🔋 Gestión energética optimizada (Deep Sleep, encendido manual).
+- (En Desarrollo)🔋 Gestión energética optimizada (Deep Sleep, encendido manual).
 - 🧠 Configuración remota por Bluetooth mediante página web.
-- 💾 Uso de LittleFS para guardar datos como números telefónicos y mensajes.
-- 📡 Comunicación LoRa entre múltiples puntos (Puntos Rosa y nodo central).
+- 💾 Uso de FFat para guardar datos como números telefónicos y mensajes.
+- (En Desarrollo)📡 Comunicación LoRa entre múltiples puntos (Puntos Rosa y nodo central).
 - 🔧 Totalmente portátil y adaptable a diversas condiciones de operación.
 
 ---
@@ -29,9 +29,8 @@
 | GPS                  | Módulo NEO-6M                            |
 | GSM                  | Módulo SIM800L                           |
 | Comunicación         | Módulo LoRa SX1276                       |
-| Almacenamiento       | SPI Flash (integrado en el ESP32)        |
 | Botones físicos      | Para encendido y emergencia              |
-| LEDs indicadores     | LED_DATA, LED_GSM, LED_PWR                       |
+| LEDs indicadores     | SMD 0805                      |
 | Conversores de voltaje | SM5308, MP1584 |
 | Batería              | LiPo 3.7V (dos en paralelo)        |
 
@@ -54,8 +53,7 @@ GorilaTrack/
 ├── data/
 │   └── user_data.txt              # Datos cargados por el usuario
 │
-├── web/
-│   └── index.html                 # Página web para editar datos vía BLE
+├── index.html                 # Página web para editar datos vía BLE
 │
 └── README.md                      # Este archivo
 ```
@@ -66,7 +64,7 @@ GorilaTrack/
 
 1. **Requisitos:**
    - Arduino IDE 2.x
-   - Modulos del ESP32 instaladas.
+   - Modulos del ESP32 instalados.
    - Librerías necesarias:
      - `TinyGSM`
      - `TinyGPS++`
@@ -78,14 +76,14 @@ GorilaTrack/
 
 2. **Pasos:**
    - Carga el contenido de `Arduino` al ESP32.
-   - Usa el gestor de archivos de Arduino para subir `Innovatek-GT.ino` con LittleFS.
-   - Si deseas editar los datos del usuario vía Bluetooth, accede al sitio web generado por el ESP32 cuando esté en modo BLE.
+   - Usa el gestor de archivos de Arduino para subir `Innovatek-GT.ino`. Antes de hacerlo Cambia "Partition Scheme" a Ffat.
+   - Si deseas editar los datos del usuario, accede al sitio web y activa el Bluetooth del ESP32, enlaza cuando esté activo el modo BLE.
 
 ---
 
 ## 📱 Configuración vía Bluetooth
 
-- El ESP32 emite una señal BLE detectable por el navegador cuando se presiona el boton Encendido.
+- El ESP32 emite una señal BLE detectable por el navegador cuando se presiona el boton trasero 6 veces.
 - Desde la web integrada puedes:
   - Cambiar nombre del usuario.
   - Editar número personal y familiar.
@@ -98,12 +96,12 @@ GorilaTrack/
 ## 🔐 Seguridad
 
 - Se utilizan botones físicos para evitar activaciones accidentales.
-- El ESP32 entra en modo Deep Sleep tras ciertos eventos para preservar batería.
 - El botón de encendido debe mantenerse presionado por un tiempo determinado para activar el dispositivo.
+- La emergencia se activa al presionar el boton EMERGENCIA 2 veces seguidas.
 
 ---
 
-## 🧭 Modo GorilaTrack (Nodo central)
+## (En Desarrollo) 🧭 Modo GorilaTrack (Nodo central)
 
 El nodo central del sistema se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia.
 
@@ -112,10 +110,10 @@ El nodo central del sistema se comporta como receptor de señales LoRa desde mú
 ## 🚧 Roadmap y mejoras futuras
 
 - 🌐 Versión web más interactiva y con interfaz moderna.
-- 📡 Soporte para múltiples modos de rastreo (en tiempo real, histórico).
+- (En Desarrollo)📡 Soporte para múltiples modos de rastreo (en tiempo real, histórico).
 - 🔒 Autenticación básica para la interfaz BLE.
 - 🛰️ Transmisión por satélite en zonas sin cobertura GSM.
-- 🔋 Optimización extrema para autonomía de meses.
+- (En Desarrollo)🔋 Optimización extrema para autonomía de meses.
 
 ---
 
