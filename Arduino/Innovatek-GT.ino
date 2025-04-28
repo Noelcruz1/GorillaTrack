@@ -2,12 +2,12 @@
  *  Incluye: GSM, GPS, Botón de emergencia, FFat, BLE, LEDs, FreeRTOS
  */
 
- /*Configuraciones de la SIM*/
+ /*Definir Modem*/
 #define TINY_GSM_MODEM_SIM800
 
-// Your GPRS credentials, if any
+// Credenciales de la SIMCARD (TELCEL)
 const char apn[] = "internet.itelcel.com";
-// const char apn[] = "ibasis.iot";
+// Claves para acceder a la Red (TElcel
 const char gprsUser[] = "webgprs";
 const char gprsPass[] = "webgprs2002";
 
@@ -57,7 +57,7 @@ TinyGsm modem(sim800);
 Bounce emergencyBtn = Bounce();
 QueueHandle_t xQueueEventos;
 
-// ================= Variables =================
+// ================= Variables Globales =================
 String numeroPersonal = "";
 String numeroFamiliar = "";
 String nombreUsuario = "";
@@ -177,7 +177,7 @@ void enviarSMS() {
     for (int i = 1; i <= 3; i++) {
       Serial.printf("Intento de SMS (%d)\n", i);
       if (modem.sendSMS(numeroFamiliar.c_str(), sms.c_str())) {
-        Serial.println("✅ SMS enviado correctamente.");
+        Serial.println(" SMS enviado correctamente.");
         exito = true;
         break;
       }
@@ -189,7 +189,7 @@ void enviarSMS() {
 
     xSemaphoreGive(xMutexGSM); // Liberar
   } else {
-    Serial.println("❌ No se pudo obtener acceso al GSM para enviar SMS.");
+    Serial.println(" No se pudo obtener acceso al GSM para enviar SMS.");
     smsEnviadoFallo = true;
   }
 }
@@ -207,7 +207,7 @@ void hacerLlamada() {
     bool llamadaExitosa = false;
 
     for (int intento = 1; intento <= 3; intento++) {
-      Serial.printf("📞 Intento de llamada %d...\n", intento);
+      Serial.printf(" Intento de llamada %d...\n", intento);
 
       if (modem.callNumber(numeroFamiliar.c_str())) {
         llamadaActiva = true;
@@ -223,23 +223,23 @@ parpadeoEmergenciaActivo = false; //  (por si parpadeaba)
 digitalWrite(LED_GSM, LOW);   //  Apaga LED físicamente
 
 
-        Serial.println("❌ Llamada no contestada o colgada después de 15s.");
+        Serial.println(" Llamada no contestada o colgada después de 15s.");
 
         delay(2000); // Esperar antes del siguiente intento
       } else {
-        Serial.println("⚠️ No se pudo iniciar la llamada.");
+        Serial.println(" No se pudo iniciar la llamada.");
         delay(2000); // Esperar antes de intentar otra vez
       }
     }
 
     // Después de 3 intentos
     llamadaActiva = false;
-    digitalWrite(LED_GSM, LOW); // 🔥 Apagamos el LED por seguridad
-    Serial.println("❌ Llamadas fallidas después de 3 intentos.");
+    digitalWrite(LED_GSM, LOW); //  Apagamos el LED por seguridad
+    Serial.println(" Llamadas fallidas después de 3 intentos.");
 
     xSemaphoreGive(xMutexGSM); // Liberar
   } else {
-    Serial.println("❌ No se pudo obtener acceso al GSM para hacer llamada.");
+    Serial.println(" No se pudo obtener acceso al GSM para hacer llamada.");
   }
 }
 
@@ -265,7 +265,7 @@ void taskBoton(void *param) {
       lastClickTime = now;
       clickCount++;
 
-      // 🚨 Verificación de emergencia no activa
+      //  Verificación de emergencia no activa
       if (clickCount == 2) {
         if (!emergenciaActiva) {
           Serial.println("[Botón] 2 clics detectados ➔ Activando emergencia");
@@ -349,7 +349,7 @@ else if (llamadaActiva) {
   }
 } 
 else {
-  // 🔥 Estado normal: LED apagado garantizado
+  //  Estado normal: LED apagado
   estadoGSM = false;
   digitalWrite(LED_GSM, LOW);
 }
@@ -357,7 +357,7 @@ else {
 
     // LED_DATA - Parpadeo rápido (0.2s) para BLE activo
     if (bleActivo) {
-      if (ahora - ultimoCambioBLE >= 200) { // Cambia cada 200ms
+      if (ahora - ultimoCambioBLE >= 1000) { // Cambia cada 1s
         estadoBLE = !estadoBLE;
         digitalWrite(LED_DATA, estadoBLE);
         ultimoCambioBLE = ahora;
@@ -417,7 +417,7 @@ void taskBotonBLE(void *param) {
       bleClicks++;
 
 if (emergenciaActiva) {
-  Serial.println("❌ No se puede activar BLE durante emergencia.");
+  Serial.println(" No se puede activar BLE durante emergencia.");
   bleClicks = 0;
   continue; // Ignorar
 }
@@ -467,7 +467,7 @@ if (xSemaphoreTake(xMutexGSM, pdMS_TO_TICKS(3000))) {
 llamadaActiva = false;
 digitalWrite(LED_DATA, LOW);
 digitalWrite(LED_GSM, LOW);
-Serial.println("🛑 Emergencia cancelada.");
+Serial.println(" Emergencia cancelada.");
 
 
       }
@@ -484,7 +484,7 @@ void taskGSM(void *param) {
 
     // Enviar SMS periódicamente durante la emergencia
     if (emergenciaActiva && millis() - lastSMSTime >= SMS_INTERVAL) {
-      Serial.println("⏳ Intervalo alcanzado. Enviando SMS de seguimiento...");
+      Serial.println(" Intervalo alcanzado. Enviando SMS de seguimiento...");
       enviarSMS();  // Esta función ya tiene la lógica de reintentos
       lastSMSTime = millis();
     }
@@ -494,7 +494,7 @@ void taskGSM(void *param) {
 }
 
 
-void taskEmergencia(void *parameter);  // 👈 Declaración de la tarea
+void taskEmergencia(void *parameter);  //  Declaración de la tarea
 
 
 void setup() {
@@ -518,7 +518,7 @@ void setup() {
   if (!FFat.begin()) Serial.println("Error FFat");
   else cargarDatosDesdeFS();
 
-// ➡️ Solo intentar iniciar el GSM 1 vez y seguir, SIN BLOQUEAR:
+// ➡ Solo intentar iniciar el GSM 1 vez y seguir, SIN BLOQUEAR:
 Serial.println("Inicializando módem GSM (sin RST)...");
 errorGSM = false; // Asumir que funciona hasta probar lo contrario
 
@@ -529,11 +529,11 @@ delay(5000); // Espera crítica para reinicio
 // 2. Verificar si el módem responde
 sim800.println("AT");
 if (modem.waitResponse(2000) != 1) {
-  Serial.println("❌ Módem no responde a comandos AT");
+  Serial.println(" Módem no responde a comandos AT");
   errorGSM = true;
 } 
 else if (!modem.init()) { // Reemplaza modem.restart() con esta verificación
-  Serial.println("❌ Fallo en inicialización del módem");
+  Serial.println(" Fallo en inicialización del módem");
   errorGSM = true;
 } 
 else {
@@ -541,7 +541,7 @@ else {
   Serial.print("Estado SIM: ");
   int simStatus = modem.getSimStatus();
   if (simStatus != 3) { // 3 = SIM_READY en TinyGSM
-    Serial.println("❌ Error en SIM (Código: " + String(simStatus) + ")");
+    Serial.println(" Error en SIM (Código: " + String(simStatus) + ")");
     errorGSM = true;
   } 
   else {
@@ -551,15 +551,15 @@ else {
       // Configurar modo texto para SMS
       modem.sendAT("+CMGF=1");
       if (modem.waitResponse(5000L) == 1) {  // Esperar hasta 5 segundos por "OK"
-        Serial.println("✅ GSM listo (modo SMS configurado)");
+        Serial.println(" GSM listo (modo SMS configurado)");
       } 
       else {
-        Serial.println("⚠️ GSM: Error configurando modo SMS");
+        Serial.println(" GSM: Error configurando modo SMS");
         errorGSM = true;
       }
     } 
     else {
-      Serial.println("⚠️ No se encontró red GSM");
+      Serial.println(" No se encontró red GSM");
       errorGSM = true;
     }
   }
