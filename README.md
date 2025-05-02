@@ -96,14 +96,15 @@ GorilaTrack/
 ## 🔐 Seguridad
 
 - Se utilizan botones físicos para evitar activaciones accidentales.
-- El botón de encendido debe mantenerse presionado por un tiempo determinado para activar el dispositivo.
-- La emergencia se activa al presionar el boton EMERGENCIA 2 veces seguidas.
+- La Emergencia se activa al presionar el boton EMERGENCIA 2 veces seguidas.
+- La Emergencia se desactiva al dejar presionado el boton EMERGENCIA durante 5 segundos.
 
 ---
 
-## (En Desarrollo) 🧭 Modo GorilaTrack (Nodo central)
+## (En Desarrollo) 🧭  Red de Nodos
 
-El nodo central del sistema se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia.
+Una Red de Nodos esparcidos en lugares seguros alrededor de la ciudad con la funcion de enviar y recibir informacion.
+El GorillaTrack incorpara un modulo LoRa SX1278 y se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el nodo más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia. 
 
 ---
 
