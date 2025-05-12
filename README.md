@@ -10,7 +10,7 @@
 
 ## 🧠 Características principales
 
-- 📍 Obtención de ubicación en tiempo real mediante GPS.
+- 📍 Obtención de ubicación GPS en [**Tiempo Real**](https://noelcruz1.github.io/GorillaTrack/Tracking-Web/FrontEnd/Html/Track.html) .
 - 📲 Envío automático de SMS con enlace de Google Maps.
 - 📞 Llamadas de emergencia con hasta 3 intentos si no contestan.
 - (En Desarrollo)🔋 Gestión energética optimizada (Deep Sleep, encendido manual).
