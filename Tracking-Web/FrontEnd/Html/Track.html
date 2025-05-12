@@ -1,0 +1,383 @@
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GorilaTrack - Sistema de Rastreo</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar h1 {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 350px;
+            background-color: #fff;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .devices-section {
+            padding: 10px;
+            background-color: #0087c1;
+            color: white;
+        }
+        
+        .devices-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .toolbar {
+            padding: 5px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .toolbar button {
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+        
+        .devices-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .devices-table th, .devices-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .state-section {
+            padding: 10px;
+            background-color: #0087c1;
+            color: white;
+        }
+        
+        .parameters-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .parameters-table th, .parameters-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .map-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .map-header {
+            padding: 10px;
+            background-color: #0087c1;
+            color: white;
+        }
+        
+        #map {
+            flex: 1;
+        }
+        
+        .controls {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .controls select, .controls input {
+            padding: 5px;
+        }
+        
+        .controls button {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+        }
+        
+        .data-table {
+            height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #ddd;
+        }
+        
+        .track-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .track-table th, .track-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .track-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .info-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #0087c1;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="">
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="devices-section">Devices</div>
+            <div class="toolbar">
+                <button>+</button>
+                <button>-</button>
+                <button>×</button>
+                <button>⊞</button>
+                <div style="flex: 1;"></div>
+                <div class="dropdown">
+                    <button>Settings ▼</button>
+                </div>
+                <button>Logout</button>
+            </div>
+            <div class="devices-list">
+                <table class="devices-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Identifier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GorilaTrack</td>
+                            <td>G-3312</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="state-section">State</div>
+            <table class="parameters-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Parameters will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="map-container">
+            <div class="map-header">Map</div>
+            <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style="position: relative; outline-style: none;"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-217px, 305px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 17; transform: translate3d(-604px, -339px, 0px) scale(2);"></div><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(-694px, -285px, 0px) scale(1);"><img alt="" src="https://a.tile.openstreetmap.org/14/3755/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1198px, 394px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3755/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1198px, 138px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3754/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(942px, 394px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3756/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1454px, 394px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3755/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1198px, 650px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3754/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(942px, 138px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3756/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1454px, 138px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3754/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(942px, 650px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3756/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1454px, 650px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3753/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(686px, 394px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3757/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1710px, 394px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3753/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(686px, 138px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3757/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1710px, 138px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3753/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(686px, 650px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3757/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1710px, 650px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3752/6973.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(430px, 394px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3752/6972.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(430px, 138px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3752/6974.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(430px, 650px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3754/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(942px, -118px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3755/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1198px, -118px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3753/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(686px, -118px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3756/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1454px, -118px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3752/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(430px, -118px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/14/3753/6970.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(686px, -374px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/14/3754/6970.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(942px, -374px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3752/6970.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(430px, -374px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3755/6970.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1198px, -374px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/14/3757/6971.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1710px, -118px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"><svg pointer-events="none" class="leaflet-zoom-animated" width="840" height="809" viewBox="147 -372 840 809" style="transform: translate3d(147px, -372px, 0px);"><g><path class="leaflet-interactive" stroke="blue" stroke-opacity="1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M387 -18L378 -31L296 -121L314 -160L360 -212L372 -238L384 -251"></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M382,-18a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M379,-24a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M373,-31a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M361,-43a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M350,-56a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M338,-69a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M326,-82a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M315,-95a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M303,-108a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M291,-121a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M297,-134a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M303,-147a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M309,-160a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M320,-173a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M332,-186a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M344,-199a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M355,-212a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M361,-225a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M367,-238a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M379,-251a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#00FF00" fill-opacity="0.8" fill-rule="evenodd" d="M376,-251a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0 "></path></g></svg></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(360px, -95px, 0px); z-index: -95;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Lauro Villar</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(360px, 164px, 0px); z-index: 164;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Pedro Cárdenas</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(186px, -225px, 0px); z-index: -225;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Carretera México 2</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(535px, -160px, 0px); z-index: -160;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Puente Internacional</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(961343px, 1.78501e+06px, 0px) scale(8192);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-26px, 14px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 16; transform: translate3d(-958px, -777px, 0px) scale(4);"></div><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://b.tile.openstreetmap.org/15/7508/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(162px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7509/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(418px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7508/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(162px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7509/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(418px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7508/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(162px, -201px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7509/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(418px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7507/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-94px, 55px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7510/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(674px, 55px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7507/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-94px, 311px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7510/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(674px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7508/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(162px, 567px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7509/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(418px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7507/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-94px, -201px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7510/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(674px, -201px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7507/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-94px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7510/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(674px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7506/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-350px, 55px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7506/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-350px, 311px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7506/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-350px, -201px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7506/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-350px, 567px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7505/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-606px, 55px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7511/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(930px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7505/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-606px, 311px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7511/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(930px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7505/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-606px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7511/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(930px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7505/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-606px, 567px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7511/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(930px, 567px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"><svg pointer-events="none" class="leaflet-zoom-animated" width="840" height="809" viewBox="-44 -81 840 809" style="transform: translate3d(-44px, -81px, 0px);"><g><path class="leaflet-interactive" stroke="blue" stroke-opacity="1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M440 570L433 557L422 544L259 363L294 285L387 181L410 130L433 104"></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M435,570a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M428,557a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M417,544a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M393,518a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M370,492a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M347,466a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M324,440a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M300,414a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M277,389a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M254,363a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M265,337a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M277,311a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M289,285a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M312,259a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M335,233a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M359,207a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M382,181a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M393,155a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M405,130a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M428,104a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#00FF00" fill-opacity="0.8" fill-rule="evenodd" d="M425,104a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0 "></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M104 728L736 26"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M637 728L736 673"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M-44 375L366 -81"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M620 414L796 218"></path></g></svg></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(387px, 414px, 0px); z-index: 414;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Lauro Villar</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(387px, 932px, 0px); z-index: 932;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Pedro Cárdenas</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(37px, 155px, 0px); z-index: 155;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Carretera México 2</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(736px, 285px, 0px); z-index: 285;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Puente Internacional</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.92226e+06px, 3.56968e+06px, 0px) scale(16384);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-411px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 16; transform: translate3d(-2191px, -777px, 0px) scale(4);"></div><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="https://b.tile.openstreetmap.org/15/7508/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(573px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7508/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(573px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7507/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(317px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7509/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(829px, 55px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7507/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(317px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7509/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(829px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7508/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(573px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7508/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(573px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7507/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(317px, -201px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7509/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(829px, -201px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7507/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(317px, 567px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7509/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(829px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7506/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(61px, 55px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7510/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1085px, 55px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7506/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(61px, 311px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7510/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1085px, 311px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7506/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(61px, -201px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7510/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1085px, -201px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7506/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(61px, 567px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7510/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1085px, 567px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7505/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-195px, 55px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/15/7511/13943.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1341px, 55px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7505/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-195px, 311px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/15/7511/13944.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1341px, 311px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7505/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-195px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7511/13942.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1341px, -201px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7505/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-195px, 567px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/15/7511/13945.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1341px, 567px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"><svg pointer-events="none" class="leaflet-zoom-animated" width="840" height="809" viewBox="341 -67 840 809" style="transform: translate3d(341px, -67px, 0px);"><g><path class="leaflet-interactive" stroke="blue" stroke-opacity="1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M851 570L844 557L833 544L670 363L705 285L798 181L821 130L844 104"></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M846,570a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M839,557a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M828,544a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M804,518a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M781,492a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M758,466a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M735,440a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M711,414a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M688,389a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M665,363a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M676,337a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M688,311a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M700,285a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M723,259a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M746,233a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M770,207a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M793,181a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M804,155a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M816,130a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#003366" fill-opacity="0.8" fill-rule="evenodd" d="M839,104a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 "></path><path class="leaflet-interactive" stroke="#fff" stroke-opacity="1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#00FF00" fill-opacity="0.8" fill-rule="evenodd" d="M836,104a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0 "></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M503 742L1147 26"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M1023 742L1147 673"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M341 404L765 -67"></path><path class="leaflet-interactive" stroke="red" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M1031 414L1181 247"></path></g></svg></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(798px, 414px, 0px); z-index: 414;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Lauro Villar</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(798px, 932px, 0px); z-index: 932;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Av. Pedro Cárdenas</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(448px, 155px, 0px); z-index: 155;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Carretera México 2</div></div><div class="leaflet-marker-icon road-label leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -50px; margin-top: -10px; width: 100px; height: 20px; transform: translate3d(1147px, 285px, 0px); z-index: 285;"><div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">Puente Internacional</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.92224e+06px, 3.56969e+06px, 0px) scale(16384);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div></div>
+            <button class="info-button">i</button>
+            
+            <div class="controls">
+                <label>Device</label>
+                <select id="G-3312">
+                    <option value="PersonaT660">G-3312</option>
+                </select>
+                
+                <label>From</label>
+                <input type="text" id="date-from" value="10/05/25">
+                <select id="time-from">
+                    <option>05:00 AM</option>
+                </select>
+                
+                <label>To</label>
+                <input type="text" id="date-to" value="13/05/25">
+                <select id="time-to">
+                    <option>08:30 AM</option>
+                </select>
+                
+                <button>Show</button>
+                <button>Clear</button>
+            </div>
+            
+            <div class="data-table">
+                <table class="track-table">
+                    <thead>
+                        <tr>
+                            <th>Valid</th>
+                            <th>Time</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Altitude</th>
+                            <th>Speed</th>
+                            <th>Course</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="track-data">
+                        <!-- Track data will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    
+    <script>
+        // Inicializar el mapa centrado en Matamoros, Tamaulipas, México
+        const map = L.map('map').setView([25.8690, -97.5027], 13);
+        
+        // Agregar capa de mapa base
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Datos de seguimiento simulados para Matamoros
+        const trackData = [
+            { valid: true, time: "2025-05-10 05:00:46", lat: 25.843725, lng: -97.457309, alt: 25, speed: 0, course: 0, address: "Av. Mario Morena Cantinflas, Matamoros" },
+            { valid: true, time: "2025-05-10 05:10:47", lat: 25.843943, lng: -97.457642, alt: 25, speed: 0, course: 0, address: "Av. Mario Morena Cantinflas, Matamoros" },
+            { valid: true, time: "2025-05-10 05:20:13", lat: 25.843315, lng: -97.457627, alt: 25, speed: 3, course: 30, address: "Calle Camino Real, Matamoros" },
+            { valid: true, time: "2025-05-10 05:30:13", lat: 25.842687, lng: -97.457612, alt: 25, speed: 5, course: 30, address: "Calle Camino Real, Matamoros" },
+{ valid: true, time: "2025-05-10 05:30:13", lat: 25.841788, lng: -97.457608, alt: 25, speed: 5, course: 30, address: "Calle Camino Real, Matamoros" },
+{ valid: true, time: "2025-05-10 05:30:13", lat: 25.840955, lng: -97.457608, alt: 25, speed: 5, course: 30, address: "Calle Camino Real, Matamoros" },
+{ valid: true, time: "2025-05-10 05:30:13", lat: 25.840914, lng: -97.458200, alt: 25, speed: 5, course: 30, address: "Calle Cerro del Bernal, Matamoros" },
+{ valid: true, time: "2025-05-10 05:30:13", lat: 25.840723, lng: -97.459156, alt: 25, speed: 5, course: 30, address: "Calle Cerro del Bernal, Matamoros" },
+
+        ];
+        
+        // Crear líneas y marcadores para el seguimiento
+        const trackPoints = trackData.map(point => [point.lat, point.lng]);
+        const trackLine = L.polyline(trackPoints, {color: 'blue', weight: 3}).addTo(map);
+        
+        // Añadir marcadores en cada punto
+        trackData.forEach((point, index) => {
+            const marker = L.circleMarker([point.lat, point.lng], {
+                radius: 5,
+                fillColor: '#003366',
+                color: '#fff',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map);
+            
+            // Si es el último punto, destacarlo como ubicación actual
+            if (index === trackData.length - 1) {
+                L.circleMarker([point.lat, point.lng], {
+                    radius: 8,
+                    fillColor: '#00FF00',
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+            }
+        });
+        
+        // Ajustar el mapa para mostrar todos los puntos
+        map.fitBounds(trackLine.getBounds());
+        
+        // Llenar tabla de datos
+        const trackTable = document.getElementById('track-data');
+        trackData.forEach(point => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${point.valid}</td>
+                <td>${point.time}</td>
+                <td>${point.lat}</td>
+                <td>${point.lng}</td>
+                <td>${point.alt}</td>
+                <td>${point.speed} mph</td>
+                <td>${point.course}</td>
+                <td>${point.address}</td>
+            `;
+            trackTable.appendChild(row);
+        });
+        
+        // Agregar caminos principales para simular carreteras principales de Matamoros
+        const mainRoads = [
+            // Av. Lauro Villar
+            [[25.860, -97.520], [25.870, -97.510], [25.880, -97.500], [25.890, -97.490]],
+            // Av. Pedro Cárdenas
+            [[25.850, -97.520], [25.855, -97.510], [25.860, -97.500], [25.865, -97.490]],
+            // Carretera a Reynosa (México 2)
+            [[25.870, -97.530], [25.880, -97.520], [25.890, -97.510], [25.900, -97.500]],
+            // Puente Internacional (Puente Nuevo)
+            [[25.875, -97.495], [25.880, -97.490], [25.885, -97.485]]
+        ];
+        
+        mainRoads.forEach(road => {
+            L.polyline(road, {color: 'red', weight: 2, opacity: 0.6}).addTo(map);
+        });
+        
+        // Agregar etiquetas de carreteras
+        const roadLabels = [
+            {pos: [25.875, -97.505], name: "Av. Lauro Villar"},
+            {pos: [25.855, -97.505], name: "Av. Pedro Cárdenas"},
+            {pos: [25.885, -97.520], name: "Carretera México 2"},
+            {pos: [25.880, -97.490], name: "Puente Internacional"}
+        ];
+        
+        roadLabels.forEach(label => {
+            L.marker(label.pos, {
+                icon: L.divIcon({
+                    className: 'road-label',
+                    html: `<div style="background-color: rgba(255, 200, 200, 0.8); padding: 3px; border-radius: 3px; font-size: 11px; border: 1px solid red;">${label.name}</div>`,
+                    iconSize: [100, 20],
+                    iconAnchor: [50, 10]
+                })
+            }).addTo(map);
+        });
+    </script>
+
+</body></html>
