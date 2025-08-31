@@ -80,7 +80,7 @@
 ## (En Desarrollo) 🧭  Red de Nodos
 
 Una Red de Nodos esparcidos en lugares seguros alrededor de la ciudad con la funcion de enviar y recibir informacion.
-El GorillaTrack incorpara un modulo LoRa SX1278 y se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el nodo más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia. 
+Zenda incorpara un modulo LoRa SX1278 y se comporta como receptor de señales LoRa desde múltiples Puntos Rosa. Al recibir datos de múltiples nodos, selecciona el nodo más cercano (según coordenadas GPS) y envía su ubicación al número personal del usuario vía SMS, sin intervenir al contacto de emergencia. 
 
 ---
 
