@@ -146,7 +146,7 @@
     async function conectar() {
       try {
         const device = await navigator.bluetooth.requestDevice({
-          filters: [{ name: "GorilaTrack" }],
+          filters: [{ name: "Zenda" }],
           optionalServices: [serviceUuid]
         });
 
@@ -226,4 +226,5 @@
   </script>
 </body>
 </html>
+
 
